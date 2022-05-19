@@ -3,7 +3,12 @@ package com.bridgelabz.greeting.model;
 public class Greeting {
 
     private String message;
-    private String name;
+    private long id;
+
+    public  Greeting(long id, String message) {
+        this.id = id;
+        this.message = message;
+    }
 
     public String getMessage() {
         return message;
@@ -13,11 +18,11 @@ public class Greeting {
         this.message = message;
     }
 
-    public String getName() {
-        return name;
+    public long getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
