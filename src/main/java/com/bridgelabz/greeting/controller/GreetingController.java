@@ -1,19 +1,42 @@
 package com.bridgelabz.greeting.controller;
 
 import com.bridgelabz.greeting.model.Greeting;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.bridgelabz.greeting.model.User;
+import com.bridgelabz.greeting.service.IGreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.List;
 
 @RestController
+@RequestMapping("/greetings")
 public class GreetingController {
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
 
-    @GetMapping("/greeting")
-    public Greeting greeting (@RequestParam(value = "name", defaultValue = "World") String name) {
-        return new Greeting(counter.incrementAndGet(), String.format(template, name));
+    @Autowired
+    private IGreetingService greetingService;
+
+    @GetMapping("/{id}")
+    public Greeting greetUser(@PathVariable(value="id") Long id) {
+        return greetingService.getGreetingById(id);
+    }
+
+    @GetMapping("/")
+    public List<Greeting> getGreetings() {
+        return greetingService.getGreetings();
+    }
+
+    @DeleteMapping("/{id}")
+    public Boolean deleteGreeting(@PathVariable(value="id") Long id) {
+        return greetingService.deleteGreeting(id);
+    }
+
+    @PostMapping("/")
+    public Greeting createGreeting(@RequestBody User user) {
+        return greetingService.addGreeting(user);
+    }
+
+    @PutMapping("/{id}")
+    public Greeting updateGreeting(@PathVariable(value="id") Long id, @RequestBody User user) {
+        return greetingService.updateGreeting(id, user);
     }
 }
